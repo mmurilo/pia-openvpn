@@ -6,5 +6,8 @@ COPY openvpn.sh /usr/local/bin/openvpn.sh
 
 RUN chmod +x /usr/local/bin/openvpn.sh
 
-ENV REGION="US West"
+RUN mkdir -p /pia
+WORKDIR /pia
+
+ENV REGION="us_west"
 ENTRYPOINT ["openvpn.sh"]
