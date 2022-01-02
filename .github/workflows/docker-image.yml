@@ -16,6 +16,6 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mmurilo/pia-openvpn:${{ github.ref }}
     - name: Login Docker hub
-      run: echo ${{ DOCKER_HUB_PASS }} | docker login --username ${{ DOCKER_HUB_USER }} --password-stdin
+      run: echo ${{ secrets.DOCKER_HUB_PASS }} | docker login --username ${{ secrets.DOCKER_HUB_USER }} --password-stdin
     - name: Push
       run: docker push mmurilo/pia-openvpn:${{ github.ref }}
