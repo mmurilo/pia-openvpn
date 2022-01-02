@@ -20,7 +20,7 @@ echo "Extract OpenVPN config bundle into PIA directory $VPN_PROVIDER_HOME"
 mkdir -p $VPN_PROVIDER_HOME
 unzip -qjo "$tmp_file" -d "$VPN_PROVIDER_HOME"
 
-set -- "$@" '--config' "${REGION:-US West}.ovpn"
+set -- "$@" '--config' "${REGION:-us_west}.ovpn"
 
 if [ ! -f auth.conf ]; then
   echo "${USERNAME:-NONE PROVIDED}" > auth.conf
