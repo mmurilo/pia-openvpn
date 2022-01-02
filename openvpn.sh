@@ -27,6 +27,10 @@ if [ ! -f auth.conf ]; then
   chmod 600 auth.conf
 fi
 
+mkdir -p /dev/net
+mknod /dev/net/tun c 10 200
+chmod 600 /dev/net/tun
+
 set -- "$@" '--auth-user-pass' 'auth.conf'
 
 openvpn "$@"
