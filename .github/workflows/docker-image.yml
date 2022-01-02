@@ -2,9 +2,8 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:        
+      - '*'
 
 jobs:
 
@@ -15,4 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mmurilo/pia-openvpn:$(date +%s)
+      run: docker build . --file Dockerfile --tag mmurilo/pia-openvpn:${{ github.ref }}
+    - name: Login Docker hub
+      run: echo ${{ DOCKER_HUB_PASS }} | docker login --username ${{ DOCKER_HUB_USER }} --password-stdin
+    - name: Push
+      run: docker push mmurilo/pia-openvpn:${{ github.ref }}
