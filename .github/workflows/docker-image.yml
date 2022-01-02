@@ -13,9 +13,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mmurilo/pia-openvpn:${{ github.ref }}
+    
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images: mmurilo/pia-openvpn
+
     - name: Login Docker hub
-      run: echo ${{ secrets.DOCKER_HUB_PASS }} | docker login --username ${{ secrets.DOCKER_HUB_USER }} --password-stdin
-    - name: Push
-      run: docker push mmurilo/pia-openvpn:${{ github.ref }}
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USER }}
+        password: ${{ secrets.DOCKER_HUB_PASS }}
+        
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
